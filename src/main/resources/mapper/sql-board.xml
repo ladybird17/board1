@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper : 인터페이스 BoardMapper 를 구현함 -->
+<!-- (namespace에 지정된 인터페이스를 구현함) -->
+<mapper namespace="board.mapper.BoardMapper">
+	<!-- <select>, <update>, <delete>, <insert>는 sql 쿼리문을 구현 -->
+	<!-- id : mapper에서 namespace로 지정한 interface에서 구현해야하는 메서드명을 뜻함 -->
+	<!-- resultType : 구현한 메서드를 통하여 반환할 데이터 타입 -->
+	<select id="selectBoardList" resultType="board.dto.BoardDto">
+		<![CDATA[
+			SELECT
+				board_idx,
+				title,
+				hit_cnt,
+				DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+			FROM
+				t_board
+			WHERE
+				deleted_yn = 'N'
+			ORDER BY board_idx DESC
+		]]>
+	</select>
+	
+	<!-- parameterType : sql 쿼리 사용시 필요한 파라미터의 데이터 타입 설정 -->
+	<select id="selectBoardDetail" parameterType="int" resultType="board.dto.BoardDto">
+		<![CDATA[
+			SELECT 
+				board_idx,
+				title,
+				contents,
+				hit_cnt, 
+				DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime,
+				created_id
+			FROM 
+				t_board
+			WHERE 
+				board_idx= #{boardIdx}
+				AND
+				deleted_yn='N'
+		]]>
+	</select>
+	
+	<update id="updateHitCount" parameterType="int">
+		<![CDATA[
+			UPDATE 
+				t_board 
+			SET 
+				hit_cnt = hit_cnt+1 
+			WHERE 
+				board_idx = #{board_idx}
+		]]>
+	</update>
+</mapper>
