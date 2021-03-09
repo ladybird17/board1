@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!--appender는 로그를 어디에(콘솔, 파일, DB저장) 출력할지 결정-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder는 appender에 포함되어 출력할 로그를 지정한 형식으로 변환-->
+        <encoder>
+            <Pattern>%d %5p [%c] %m%n</Pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="console-infolog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d %5p %m%n</Pattern>
+        </encoder>
+    </appender>
+    
+    <!--
+    logger는 로그를 출력하는 요소.
+    level 속성을 사용하여 출력할 로그의 레벨을 조절하여
+    appender에 전달함
+    -->
+    <logger name="board" level="DEBUG" appender-ref="console"/>
+	
+	<logger name="jdbc.sqlonly" level="DEBUG" appender-ref="console-infolog" />
+	<logger name="jdbc.resultsettable" level="DEBUG" appender-fer="console-infolog"/>
+	
+    <root level="off">
+        <appender-ref ref="console"/>
+    </root>
+
+    <!--
+    trace : 모든 로그 출력
+    debug : 개발할 때 디버그 용도로 사용
+    info : 상태 변경 등과 같은 정보성 메시지 출력시 사용
+    warn : 프로그램 실행에는 문제가 없지만 
+        추후 시스템 에러의 원일이 될 수 있는 경고성 메시지
+    error : 요청을 처리하던 중 문제가 발생한 것을 의미함
+    -->
+</configuration>
