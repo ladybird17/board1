@@ -1,5 +1,7 @@
 package board.dto;
 
+import java.util.List;
+
 //lombok.jar파일 구글 검색후 다운받아 설치했음
 import lombok.Data;
 
@@ -15,5 +17,7 @@ public class BoardDto {
 	private	String updatedDatetime;
 	private String updaterId;
 	private String deletedYn;
+//	기존의 BoardDto 클래스는 파일 정보에 대한 멤버 변수가 없으므로 추가함
+	private List<BoardFileDto> fileList;
 
 }

@@ -70,11 +70,18 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="50">
+						<td colspan="4">
 							<textarea title="내용" id="contents" name="contents" th:text="${board.contents}" class="form=control" rows="8"></textarea>
 						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4">
+							<a th:each="list : ${board.fileList}" th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 			<!-- 화면에는 보이지 않고 서버에는 전송되는 데이터 -->
 			<input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
