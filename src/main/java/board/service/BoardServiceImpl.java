@@ -118,4 +118,17 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteBoard(int boardIdx) throws Exception{
 		boardMapper.deleteBoard(boardIdx);
 	}
+	
+	/*
+	마이바티스는 map을 파라미터(매개변수로) 사용하는 기능을 지원함.
+	쿼리의 파라미터가 2~3개정도인 경우 이를 위해서 DTO를 새로 생성하기
+	애매한 경우가 존재함.
+	이럴 떄 @Param어노테이션을 사용하면 해당 파라미터들을
+	Map에 저장하여 DTO를 생성하지 않고 여러개의 파라미터 지정 가능
+	sql에서 parameterType="map"으로 지정하여 사용 가능
+	 */
+	@Override
+	public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception{
+		return boardMapper.selectBoardFileInformation(idx, boardIdx);
+	}
 }

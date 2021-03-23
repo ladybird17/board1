@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thypeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>에러</title>
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+<script th:src="@{/js/jquery-3.5.1.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+	<header class="container">
+		<div class="jumbotron">
+			<h1>공통 에러 페이지입니다.</h1>
+		</div>
+	</header>
+	<main class="container">
+		<section class="row">
+			<article class="col-sm-8">
+				<p th:text="${exception}"></p>
+				<ul th:each="list : ${exception.getStracTrace()}" th:text="${list.toString()"></ul>
+			</article>
+		</section>
+	</main>
+</body>
+</html>

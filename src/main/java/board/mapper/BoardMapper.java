@@ -3,6 +3,7 @@ package board.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import board.dto.BoardDto;
 import board.dto.BoardFileDto;
@@ -33,4 +34,7 @@ public interface BoardMapper {
 	
 	//게시글 삭제하기
 	void deleteBoard(int boardIdx) throws Exception;
+	
+	//파일 정보 가져오기
+	BoardFileDto selectBoardFileInformation(@Param("idx") int idx, @Param("boardIdx") int boardIdx);
 }

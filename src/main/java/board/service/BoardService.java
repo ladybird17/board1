@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.dto.BoardDto;
+import board.dto.BoardFileDto;
 
 public interface BoardService {
 	List<BoardDto> selectBoardList() throws Exception;
@@ -18,4 +19,6 @@ public interface BoardService {
 	void updateBoard(BoardDto board) throws Exception;
 	
 	void deleteBoard(int boardIdx) throws Exception;
+	
+	BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception;
 }

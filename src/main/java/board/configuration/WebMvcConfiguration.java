@@ -10,7 +10,10 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import board.Interceptor.LoggerInterceptor;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
@@ -56,5 +59,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		commonsMultipartResolver.setMaxUploadSizePerFile(5*1024*1024);
 		
 		return commonsMultipartResolver;
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new LoggerInterceptor());
 	}
 }

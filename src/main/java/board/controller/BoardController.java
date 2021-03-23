@@ -1,6 +1,12 @@
 package board.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
 
 // Logback 사용하더라도 slf4j 패키지의 의존성을 활용하여 logger를 사용함
 // 다른 로깅 시스템을 사용하더라도 쉽게 변경이 가능함
@@ -8,12 +14,14 @@ import java.util.List;
 //import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import board.dto.BoardDto;
+import board.dto.BoardFileDto;
 import board.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,6 +109,31 @@ public class BoardController {
 		boardService.deleteBoard(boardIdx);
 		
 		return "redirect:/board/openBoardList.do";
+	}
+	
+	//HttpServletResponse는 서버에서 클라이언트로 응답할 데이터를 담고 있음
+	@RequestMapping("/board/downloadBoardFile.do")
+	public void downloadBoardFile(@RequestParam int idx, @RequestParam int boardIdx, HttpServletResponse response) throws Exception {
+		BoardFileDto boardFile = boardService.selectBoardFileInformation(idx, boardIdx); //db에서 파일 정보 검색
+		
+		//db에서 가져온 정보가 비어있는지 확인함
+		if (ObjectUtils.isEmpty(boardFile) == false) {
+			//원본 파일명 가져오기
+			String fileName = boardFile.getOriginalFileName();
+			
+			//실제 저장된 파일 위치에서 파일에 대한 정보를 읽어온 후 byte 타입으로 변환
+			//apache의 commons.io 패키지의 FileUtils를 이용하여 byte 타입으로 변경
+			byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFilePath()));
+			
+			response.setContentType("application/octet-stream");
+			response.setContentLength(files.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(fileName,"UTF-8")+"\";");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			
+			response.getOutputStream().write(files);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		}
 	}
 }
 

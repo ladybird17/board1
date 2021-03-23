@@ -78,7 +78,12 @@
 				<tfoot>
 					<tr>
 						<td colspan="4">
-							<a th:each="list : ${board.fileList}" th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
+						<!--
+						href 속성을 통해서 해당 주소로 이동한다.
+						(파라미터명=파라미터값, 파라미터명=파라미터값)을 사용하면
+						2개 이상의 파라미터를 서버로 전송 가능함
+						-->
+							<a th:each="list : ${board.fileList}" th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}" th:text="|${list.originalFileName} (${list.fileSize} kb)|"></a>
 						</td>
 					</tr>
 				</tfoot>
